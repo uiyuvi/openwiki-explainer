@@ -32,29 +32,60 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci --legacy-peer-deps || npm install --legacy-peer-deps
 
       - name: Sanitize any AI Studio local artifacts
-        run: rm -rf .aistudio public/assets/aistudio
+        run: rm -rf .aistudio .tempmediaStorage public/assets/aistudio
 
       - name: Build project
         run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
+        with:
+          enablement: true
+        continue-on-error: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
 
-      - name: Ensure deployment runs after default branch build if active
+      - name: Wait for default branch build (if active) before deploying
         if: github.event_name == 'push'
-        run: sleep 35
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Checking if default 'pages build and deployment' workflow is active..."
+          sleep 12
+          for i in $(seq 1 18); do
+            ACTIVE=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+              "https://api.github.com/repos/$GH_REPO/actions/runs?event=dynamic&per_page=5" | \
+              node -e '
+                try {
+                  const data = JSON.parse(require("fs").readFileSync(0, "utf8"));
+                  const busy = (data.workflow_runs || []).some(r =>
+                    r.name === "pages build and deployment" &&
+                    (r.status === "in_progress" || r.status === "queued" || r.status === "waiting" || r.status === "pending")
+                  );
+                  process.stdout.write(busy ? "yes" : "no");
+                } catch (e) {
+                  process.stdout.write("no");
+                }
+              ')
+            if [ "$ACTIVE" = "no" ]; then
+              echo "No active default branch deployment running. Proceeding after brief settle delay..."
+              sleep 5
+              break
+            fi
+            echo "Default 'pages build and deployment' is still running (attempt $i/18). Waiting 5s..."
+            sleep 5
+          done
 
   deploy:
     needs: build

@@ -1,22 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OpenWiki Explainer</title>
+    <meta http-equiv="refresh" content="0;url=/openwiki-explainer/" />
     <script>
-      // Single Page App redirect for GitHub Pages
-      // When a user lands on a deep path or without trailing slash, redirect cleanly to /openwiki-explainer/
-      var base = '/openwiki-explainer/';
-      var current = window.location.pathname;
-      if (current !== base) {
-        window.location.replace(base + (window.location.search || '') + (window.location.hash || ''));
-      }
+      window.location.replace('/openwiki-explainer/');
     </script>
-    <meta http-equiv="refresh" content="0; URL='/openwiki-explainer/'">
   </head>
-  <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #000000; padding: 3rem; text-align: center;">
-    <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">OpenWiki Explainer</h2>
-    <p style="font-size: 0.875rem; color: #52525b;">Redirecting to interactive explainer...</p>
-    <p style="margin-top: 1rem;"><a href="/openwiki-explainer/" style="color: #000000; font-weight: 600; text-decoration: underline;">Click here if not redirected automatically</a></p>
+  <body style="background:#ffffff;color:#09090b;font-family:monospace;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;">
+    <a href="/openwiki-explainer/" style="color:#09090b;font-weight:700;">Redirecting to OpenWiki Explainer...</a>
   </body>
 </html>
