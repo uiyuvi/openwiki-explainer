@@ -1,0 +1,24 @@
+# GitLab CI/CD configuration for GitLab Pages
+image: node:20
+
+pages:
+  stage: deploy
+  cache:
+    paths:
+      - node_modules/
+  before_script:
+    - npm ci || npm install
+  script:
+    - npm run build
+    - rm -rf public_pages
+    - mkdir -p public_pages
+    - cp -r dist/* public_pages/
+    - rm -rf public
+    - mv public_pages public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "master"

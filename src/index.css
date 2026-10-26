@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #FFFFFF;
+    color: #09090B;
+  }
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@keyframes dashFlow {
+  to { stroke-dashoffset: -20; }
+}
+
+.flow-line-active {
+  stroke-dasharray: 5 5;
+  animation: dashFlow 0.5s linear infinite;
+}
+
+/* Custom scrollbar in crisp monochrome */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #FAFAFA;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4D4D8;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #71717A;
+}
+
+/* Interactive Tangle/Inline value tokens in clean monochrome */
+.tangle-token {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.25rem;
+  background-color: #F4F4F5;
+  border-bottom: 2px dashed #18181B;
+  color: #09090B;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.tangle-token:hover {
+  background-color: #E4E4E7;
+  border-bottom-style: solid;
+}

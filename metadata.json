@@ -1,0 +1,6 @@
+{
+  "name": "OpenWiki Explorable: Architecture & Trade-Offs",
+  "description": "An interactive, technical explorable explanation of OpenWiki for software engineers and tech leads. Visualizes AGENTS.md offloading, prompt caching math, MCP retrieval, and real-world trade-offs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
